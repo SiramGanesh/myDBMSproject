@@ -1,0 +1,180 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.header-left h1 {
+    font-size: 32px;
+    font-weight: 600;
+    padding-left: 5px;
+    margin-right: 15px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    color: #333;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: 500;
+}
+
+.header form {
+    margin-right: auto;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background: #7494ec;
+    color: #fff;
+    border: none;
+    margin-right: 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+body {
+    padding-top: 60px;
+}
+
+.admin-form {
+    display: flex;
+    justify-content: center;
+}
+
+.form-table {
+    border-collapse: separate;
+    border-spacing: 15px;
+    border-radius: 10px;
+    padding: 25px 25px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    background: linear-gradient(to right, #f86c6c, #a3b7fb);
+}
+
+.form-table td {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+
+.form-table input {
+    width: 250px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.form-table button {
+    margin-top: 15px;
+    padding: 12px 30px;
+    color: #333;
+    border-radius: 6px;
+    border-width: 1px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-table button:hover {
+    background: #aaaaaa;
+}
+
+.form-table button:active {
+    background: #757575;
+}
+
+.mobile_data_h2 {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+}
+
+.data_table {
+    width: 70%;
+    margin: 25px auto;
+    border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.data_table th {
+    background: #7494ec;
+    color: #ffffff;
+    padding: 14px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.data_table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+}
+
+.data_table tr:nth-child(even) {
+    background: #f4f6fb;
+}
+
+.data_table tr:hover {
+    background: #eef2ff;
+    transition: 0.2s ease;
+}
+
+.data_table,
+.data_table th,
+.data_table td {
+    border: none;
+}
+
+.success-message {
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.failed-message {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
