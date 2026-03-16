@@ -43,6 +43,7 @@
 .username {
     font-weight: 600;
     padding-right: 7px;
+    margin-right: 20px;
 }
 
 /* Profile dropdown styles */
@@ -69,8 +70,8 @@
 .profile-dropdown {
     position: absolute;
     right: 0;
-    top: calc(100% + 11px);
-    min-width: 160px;
+    top: calc(100% + 6px);
+    min-width: 140px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 6px 20px rgba(28,45,80,0.12);

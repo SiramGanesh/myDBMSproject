@@ -7,6 +7,15 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
+/* FETCH USER PROFILE IMAGE */
+$email = $_SESSION['email'];
+
+$stmt = $conn->prepare("SELECT profile_pic FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
 /* HANDLE INSERT FIRST */
 if (isset($_POST['add_mobile'])) {
     
@@ -76,6 +85,15 @@ if (isset($_POST['update_mobile'])) {
         exit();
     }
 }
+
+/* ---------- DEFAULT IMAGE ---------- */
+
+$profileImage = "uploads/default_user.png";
+
+if(!empty($user['profile_pic'])){
+    $profileImage = $user['profile_pic'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +113,7 @@ if (isset($_POST['update_mobile'])) {
     <div class="header-right">
         <div class="profile-menu" id="profileMenu">
             <button type="button" class="profile-toggle" aria-expanded="false">
-                <img src="user.jpeg" alt="Admin" class="profile-img">
+                <img src="<?php echo $profileImage; ?>" alt="Admin" class="profile-img">
                 <span class="username"><?= htmlspecialchars($_SESSION['name']); ?></span>
             </button>
 

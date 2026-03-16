@@ -1,3 +1,73 @@
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 16px;
+    font-size:14px;
+    font-weight:500;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#6a8fd8,#8fa9e6);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    transition:all 0.25s ease;
+    text-decoration:none;
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 14px rgba(0,0,0,0.2);
+    background:linear-gradient(135deg,#5b7ec7,#7d9de0);
+}
+
+.file-input{
+    font-size:14px;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    background:#f9f9f9;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.file-input::file-selector-button{
+    background:linear-gradient(135deg,#f46b6b,#8fa9e6);
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    color:white;
+    font-weight:500;
+    cursor:pointer;
+    margin-right:10px;
+    transition:0.25s;
+}
+
+.file-input::file-selector-button:hover{
+    opacity:0.9;
+    transform:translateY(-1px);
+}
+
+.upload-btn{
+    margin-top: 10px;
+    padding:8px 18px;
+    font-size:14px;
+    font-weight:500;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#ff6a6a,#8fa9e6);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+    transition:all 0.25s ease;
+}
+
+.upload-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 14px rgba(0,0,0,0.2);
+    background:linear-gradient(135deg,#ff5757,#7d9de0);
+}
+
 .profile-container {
     max-width: 400px;
     margin: 50px auto;
