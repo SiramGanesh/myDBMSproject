@@ -120,6 +120,38 @@
     display: block;
     padding: 0;
 }
+.buy-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.buy-form input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.buy-form button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    background: #28a745;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.buy-form button:hover {
+    background: #218838;
+}
 
 /* Actions buttons for rows */
 .action-btn {

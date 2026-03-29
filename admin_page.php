@@ -119,7 +119,7 @@ if(!empty($user['profile_pic'])){
 
             <div class="profile-dropdown" aria-hidden="true">
                 <a href="myProfile.php" class="profile-item">My Profile</a>
-                <a href="#" class="profile-item">Purchases</a>
+                <a href="admin_purchases.php" class="profile-item">Purchases</a>
                 <form action="logout.php" method="post" class="profile-item logout-form" onclick="this.submit()" role="button" tabindex="0">
                     <button type="submit" class="logout-link">Logout</button>
                 </form>
