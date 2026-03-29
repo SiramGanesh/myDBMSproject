@@ -12,6 +12,11 @@
     $message = '';
     $error = '';
 
+    // Check for GET message
+    if (isset($_GET['message'])) {
+        $message = $_GET['message'];
+    }
+
     /* Fetch current user */
     $userStmt = $conn->prepare("SELECT id, profile_pic FROM users WHERE email = ?");
     $userStmt->bind_param("s", $userEmail);
@@ -76,7 +81,8 @@
 
                     if ($insertHist->execute()) {
                         $conn->commit();
-                        $message = "Successfully purchased {$buyQuantity} unit(s) of {$mobile['brand']} {$mobile['model']} for ₹{$total}.";
+                        header("Location: user_page.php?message=" . urlencode("Successfully purchased {$buyQuantity} unit(s) of {$mobile['brand']} {$mobile['model']} for ₹{$total}."));
+                        exit();
                     } else {
                         $conn->rollback();
                         $error = 'Unable to save purchase history. Please contact support.';
@@ -85,9 +91,57 @@
             }
         }
     }
+
+    /* Handle refund action */
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['refund_purchase'])) {
+        $purchaseId = intval($_POST['purchase_id']);
+
+        // Fetch purchase details
+        $refundStmt = $conn->prepare(
+            "SELECT p.quantity, p.mobile_id, p.purchase_date, m.brand, m.model
+             FROM purchases p
+             LEFT JOIN mobiles m ON p.mobile_id = m.id
+             WHERE p.id = ? AND p.user_id = ?"
+        );
+        $refundStmt->bind_param("ii", $purchaseId, $user['id']);
+        $refundStmt->execute();
+        $refundResult = $refundStmt->get_result();
+
+        if ($refundResult->num_rows === 0) {
+            $error = 'Purchase not found or not yours.';
+        } else {
+            $purchase = $refundResult->fetch_assoc();
+            $purchaseDate = strtotime($purchase['purchase_date']);
+            $daysDiff = (time() - $purchaseDate) / (24 * 3600);
+
+            if ($daysDiff > 7) {
+                $error = 'Refund period (7 days) has expired.';
+            } else {
+                $conn->begin_transaction();
+
+                // Increment mobile quantity
+                $updateMobileStmt = $conn->prepare("UPDATE mobiles SET quantity = quantity + ? WHERE id = ?");
+                $updateMobileStmt->bind_param("ii", $purchase['quantity'], $purchase['mobile_id']);
+                $updateMobileStmt->execute();
+
+                // Delete purchase
+                $deletePurchaseStmt = $conn->prepare("DELETE FROM purchases WHERE id = ?");
+                $deletePurchaseStmt->bind_param("i", $purchaseId);
+                $deletePurchaseStmt->execute();
+
+                if ($updateMobileStmt->affected_rows > 0 && $deletePurchaseStmt->affected_rows > 0) {
+                    $conn->commit();
+                    header("Location: user_page.php?message=" . urlencode("Refund processed successfully for {$purchase['brand']} {$purchase['model']}."));
+                    exit();
+                } else {
+                    $conn->rollback();
+                    $error = 'Failed to process refund. Please try again.';
+                }
+            }
+        }
+    }
 ?>
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,6 +227,7 @@
             <th>Unit Price</th>
             <th>Total</th>
             <th>Date</th>
+            <th>Refund</th>
         </tr>
 
         <?php
@@ -188,7 +243,7 @@
         $historyResult = $historyStmt->get_result();
 
         if ($historyResult->num_rows === 0) {
-            echo "<tr><td colspan='6' style='text-align: center;'>No purchases yet.</td></tr>";
+            echo "<tr><td colspan='7' style='text-align: center;'>No purchases yet.</td></tr>";
         } else {
             while ($order = $historyResult->fetch_assoc()) {
                 $brand = htmlspecialchars($order['brand'] ?? 'Unknown');
@@ -197,6 +252,7 @@
                 $total = number_format((float)$order['total'], 2);
                 $qty = intval($order['quantity']);
                 $date = htmlspecialchars($order['purchase_date']);
+                $isRefundable = (time() - strtotime($order['purchase_date'])) < (7 * 24 * 3600);
 
                 echo "<tr>
                         <td>{$order['id']}</td>
@@ -205,6 +261,16 @@
                         <td>₹{$unitPrice}</td>
                         <td>₹{$total}</td>
                         <td>{$date}</td>
+                        <td>";
+                if ($isRefundable) {
+                    echo "<form method='POST' style='display:inline;'>
+                            <input type='hidden' name='purchase_id' value='{$order['id']}'>
+                            <button type='submit' name='refund_purchase' style='padding:4px 8px; background:#dc3545; color:#fff; border:none; border-radius:4px; cursor:pointer;'>Refund</button>
+                          </form>";
+                } else {
+                    echo "Expired";
+                }
+                echo "</td>
                       </tr>";
             }
         }
