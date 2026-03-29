@@ -5,6 +5,14 @@
         header("location: index.php");
         exit();
     }
+
+    /* ---------- DEFAULT IMAGE ---------- */
+
+    $profileImage = "uploads/default_user.png";
+
+    if(!empty($user['profile_pic'])){
+        $profileImage = $user['profile_pic'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,15 +26,24 @@
 
     <div class="header">
         <div class="header-left">
-            <h1>User Dashboard</h1>
+            <h1>Admin Dashboard</h1>
         </div>
 
         <div class="header-right">
-            <img src="user.jpeg" alt="Admin" class="profile-img">
-            <span class="username"><?= htmlspecialchars($_SESSION['name']); ?></span>
-            <form action="logout.php" method="post">
-                <button class="logout-btn">Logout</button>
-            </form>
+            <div class="profile-menu" id="profileMenu">
+                <button type="button" class="profile-toggle" aria-expanded="false">
+                    <img src="<?php echo $profileImage; ?>" alt="Admin" class="profile-img">
+                    <span class="username"><?= htmlspecialchars($_SESSION['name']); ?></span>
+                </button>
+
+                <div class="profile-dropdown" aria-hidden="true">
+                    <a href="myProfile.php" class="profile-item">My Profile</a>
+                    <a href="#" class="profile-item">Purchases</a>
+                    <form action="logout.php" method="post" class="profile-item logout-form" onclick="this.submit()" role="button" tabindex="0">
+                        <button type="submit" class="logout-link">Logout</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -54,6 +71,6 @@
         ?>
 
     </table>
-
+    <script src="script.js"></script>
 </body>
 </html>

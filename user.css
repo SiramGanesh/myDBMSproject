@@ -42,28 +42,100 @@
 }
 
 .username {
-    font-weight: 500;
+    font-weight: 600;
+    padding-right: 7px;
+    margin-right: 20px;
 }
 
 .header form {
     margin-right: auto;
 }
 
-.logout-btn {
-    padding: 10px 20px;
-    background: #7494ec;
-    color: #fff;
-    border: none;
-    margin-right: 20px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
+/* Profile dropdown styles */
+.profile-menu {
+    position: relative;
+    display: inline-block;
 }
 
-.logout-btn:hover {
-    background: #c0392b;
+.profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
 }
+
+.profile-toggle:focus {
+    outline: 2px solid rgba(116,148,236,0.25);
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    min-width: 140px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(28,45,80,0.12);
+    transform-origin: top right;
+    transform: scaleY(0);
+    opacity: 0;
+    transition: transform 200ms cubic-bezier(.2,.9,.2,1), opacity 160ms ease;
+    pointer-events: none;
+    z-index: 1200;
+    padding: 8px 0;
+}
+
+.profile-menu.open .profile-dropdown {
+    transform: scaleY(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile-item {
+    display: block;
+    padding: 10px 16px;
+    color: #1f2d4a;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.profile-item:hover {
+    background: #f4f6fb;
+}
+
+.logout-form { margin: 0; }
+.logout-link {
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: block;
+    padding: 0;
+}
+
+/* Actions buttons for rows */
+.action-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin: 0 4px;
+}
+.action-btn:hover {
+    opacity: 0.85;
+}
+.edit-btn { background: #f0ad4e; }
+.save-btn { background: #28a745; }
+.cancel-btn { background: #6c757d; }
 
 body {
     padding-top: 60px;
