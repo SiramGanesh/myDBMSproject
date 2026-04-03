@@ -118,6 +118,25 @@ if ($imgRow && !empty($imgRow['profile_pic'])) {
 
     </table>
 
+    <div class='aggregate-stats'>
+        <?php
+        $statsStmt = $conn->prepare(
+            "SELECT 
+                (SELECT COUNT(*) FROM purchases) AS total_purchases,
+                (SELECT IFNULL(SUM(total), 0) FROM purchases) AS total_revenue,
+                (SELECT IFNULL(AVG(total), 0) FROM purchases) AS avg_purchase_value"
+        );
+        $statsStmt->execute();
+        $statsResult = $statsStmt->get_result();
+        $stats = $statsResult->fetch_assoc();
+
+        echo "<div><p><strong>Total Purchases:</strong> " . intval($stats['total_purchases']) . "</p>"."</div>";
+        echo "<div><p><strong>Total Revenue:</strong> ₹" . number_format((float)$stats['total_revenue'], 2) . "</p>"."</div>";
+        echo "<div><p><strong>Average Purchase Value:</strong> ₹" . number_format((float)$stats['avg_purchase_value'], 2) . "</p>"."</div>";
+        ?>
+
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
